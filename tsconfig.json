@@ -1,0 +1,23 @@
+{
+    "extends": "@tsconfig/node18/tsconfig.json",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "./lib",
+        "strict": true,
+        "lib": [
+            "es2022",
+            "DOM",
+            "scripthost"
+        ]
+    },
+    "include": [
+        "src",
+        "lib/index.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/__tests__/*"
+    ]
+}
