@@ -10,14 +10,14 @@ Check the [Using Options](#using-options) example for how to use a custom fetch 
 
 Install
 
-`npm install @bakerweb/hermes`
+`npm install @bakerwebsolutions/hermes`
 
 ## Examples
 
 ### Get Request
 
 ```
-import hermes from '@bakerweb/hermes'
+import hermes from '@bakerwebsolutions/hermes'
 
 const getRequestResponse = hermes.get('https://reqres.in/api/users?page=2)
 ```
@@ -25,7 +25,7 @@ const getRequestResponse = hermes.get('https://reqres.in/api/users?page=2)
 ### Post Request
 
 ```
-import hermes from '@bakerweb/hermes'
+import hermes from '@bakerwebsolutions/hermes'
 
 const postRequestResponse = hermes.post('https://reqres.in/api/users', {data: {
     name: 'John',
@@ -36,7 +36,7 @@ const postRequestResponse = hermes.post('https://reqres.in/api/users', {data: {
 ### Using Options
 
 ```
-import hermes from '@bakerweb/hermes'
+import hermes from '@bakerwebsolutions/hermes'
 import fetch from 'node-fetch'
 
 const data = {

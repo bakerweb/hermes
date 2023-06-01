@@ -1,5 +1,5 @@
 {
-  "name": "hermes",
+  "name": "@bakerwebsolutions/hermes",
   "version": "1.0.0",
   "description": "Lightweight fetch wrapper",
   "main": "lib/index.js",
