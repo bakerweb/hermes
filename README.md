@@ -8,8 +8,6 @@ Check the [Using Options](#using-options) example for how to use a custom fetch 
 
 ## Installation
 
-Install
-
 `npm install @bakerwebsolutions/hermes`
 
 ## Examples
