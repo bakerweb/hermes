@@ -1,7 +1,7 @@
 // * This is a lightweight implementation that works off browser fetch or any custom fetch you pass in
 /*
  * use example
- * import {hermes} from 'hermes'
+ * import {hermes} from '@bakerweb/hermes'
  * hermes.post('http://localhost:3001/api/v1/get-user, {data: {userId: 134}})
  */
 import { Headers } from 'headers-polyfill';
@@ -23,12 +23,12 @@ declare const Fetch: {
 };
 
 async function post<T = unknown, B = unknown>(url: string, options?: { data?: B; headers?: Headers; fetch?: Fetch }) {
-  // set headers
-  const headers = new Headers({
-    'Content-Type': 'application/json',
-  });
+  // check if we are running in node or browser
+  const envCheckResponse = await envCheck();
+  // Set headers
+  const headers = new Headers({ 'Content-Type': 'application/json' });
   // set fetch
-  const customFetch = options?.fetch ? options.fetch : fetch;
+  const customFetch = options?.fetch ? options.fetch : envCheckResponse ? envCheckResponse : fetch;
   const { data } = options?.data ? options : { data: false };
   const method = 'POST';
   // make request
@@ -57,10 +57,12 @@ async function post<T = unknown, B = unknown>(url: string, options?: { data?: B;
 }
 
 async function get<T = unknown, B = unknown>(url: string, options?: { data?: B; headers?: Headers; fetch?: Fetch }) {
-  // set headers
+  // check if we are running in node or browser
+  const envCheckResponse = await envCheck();
+  // Set headers
   const headers = new Headers({ 'Content-Type': 'application/json' });
   // set fetch
-  const customFetch = options?.fetch ? options.fetch : fetch;
+  const customFetch = options?.fetch ? options.fetch : envCheckResponse ? envCheckResponse : fetch;
   const { data } = options?.data ? options : { data: false };
   const method = 'GET';
   // make request
@@ -89,14 +91,15 @@ async function get<T = unknown, B = unknown>(url: string, options?: { data?: B; 
 }
 
 async function _delete<T = unknown>(url: string, options?: { headers?: Headers; fetch?: Fetch }) {
-  // set headers
+  // check if we are running in node or browser
+  const envCheckResponse = await envCheck();
+  // Set headers
   const headers = new Headers({ 'Content-Type': 'application/json' });
   // set fetch
-  const customFetch = options?.fetch ? options.fetch : fetch;
+  const customFetch = options?.fetch ? options.fetch : envCheckResponse ? envCheckResponse : fetch;
   const method = 'DELETE';
   // make request
-  let fetchResult: Response;
-  fetchResult = await customFetch(url, {
+  const fetchResult = await customFetch(url, {
     method,
     headers: {
       ...options?.headers,
@@ -108,10 +111,12 @@ async function _delete<T = unknown>(url: string, options?: { headers?: Headers; 
 }
 
 async function put<T = unknown, B = unknown>(url: string, options?: { data?: B; headers?: Headers; fetch?: Fetch }) {
+  // check if we are running in node or browser
+  const envCheckResponse = await envCheck();
   // Set headers
   const headers = new Headers({ 'Content-Type': 'application/json' });
   // set fetch
-  const customFetch = options?.fetch ? options.fetch : fetch;
+  const customFetch = options?.fetch ? options.fetch : envCheckResponse ? envCheckResponse : fetch;
   const { data } = options?.data ? options : { data: false };
   const method = 'PUT';
   // make request
@@ -156,5 +161,14 @@ async function resolveHelper<T>(fetchResult: Response) {
   } else {
     const errorMessage = await fetchResult.text();
     return Promise.reject(new Error(errorMessage));
+  }
+}
+
+async function envCheck() {
+  if (typeof window === 'undefined') {
+    const fetch = (await import('node-fetch')) as unknown as Fetch;
+    return fetch;
+  } else {
+    return false;
   }
 }

@@ -30,6 +30,7 @@
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "headers-polyfill": "^3.1.2",
+    "node-fetch": "^3.3.1",
     "prettier": "^2.8.8",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^5.0.4"
