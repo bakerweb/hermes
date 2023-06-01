@@ -1,16 +1,24 @@
 {
   "name": "@bakerwebsolutions/hermes",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Lightweight fetch wrapper",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "repository": "github:bakerweb/hermes",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakerweb/hermes.git"
+  },
   "type": "module",
   "scripts": {
     "test": "npx playwright test",
     "build": "tsc",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts ."
+    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "fetch",
@@ -34,5 +42,8 @@
     "prettier": "^2.8.8",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^5.0.4"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
