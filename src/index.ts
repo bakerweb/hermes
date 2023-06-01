@@ -4,6 +4,8 @@
  * import {hermes} from 'hermes'
  * hermes.post('http://localhost:3001/api/v1/get-user, {data: {userId: 134}})
  */
+import { Headers } from 'headers-polyfill';
+
 export const hermes = {
   post,
   put,

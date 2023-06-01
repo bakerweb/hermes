@@ -10,7 +10,8 @@
             "es2022",
             "DOM",
             "scripthost"
-        ]
+        ],
+        "noImplicitAny": true,
     },
     "include": [
         "src",
