@@ -1,2 +1,3 @@
 # Hermes
-## Light weight fetch wrapper
+
+Lightweight fetch wrapper
