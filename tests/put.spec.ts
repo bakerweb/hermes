@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { hermes } from '../src/index';
 import { UpdateUserResponse } from './types';
 
-test('Put Request', async ({ page }) => {
+test('Put Request', async () => {
   const data = {
     name: 'morpheus',
     job: 'zion resident',

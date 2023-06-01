@@ -5,7 +5,7 @@ type Data = {
   name: string;
   job: string;
 };
-test('Post Request', async ({ page }) => {
+test('Post Request', async () => {
   const data = {
     name: 'mobius',
     movies: ['XD'],
