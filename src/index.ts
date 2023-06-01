@@ -5,6 +5,7 @@
  * hermes.post('http://localhost:3001/api/v1/get-user, {data: {userId: 134}})
  */
 import { Headers } from 'headers-polyfill';
+import type { Response as NodeFetchResponse } from 'node-fetch';
 
 export const hermes = {
   post,
@@ -32,7 +33,7 @@ async function post<T = unknown, B = unknown>(url: string, options?: { data?: B;
   const { data } = options?.data ? options : { data: false };
   const method = 'POST';
   // make request
-  let fetchResult: Response;
+  let fetchResult: Response | NodeFetchResponse;
   if (data) {
     const body = JSON.stringify(data);
     fetchResult = await customFetch(url, {
@@ -66,7 +67,7 @@ async function get<T = unknown, B = unknown>(url: string, options?: { data?: B; 
   const { data } = options?.data ? options : { data: false };
   const method = 'GET';
   // make request
-  let fetchResult: Response;
+  let fetchResult: Response | NodeFetchResponse;
   if (data) {
     const body = JSON.stringify(data);
     fetchResult = await customFetch(url, {
@@ -120,7 +121,7 @@ async function put<T = unknown, B = unknown>(url: string, options?: { data?: B; 
   const { data } = options?.data ? options : { data: false };
   const method = 'PUT';
   // make request
-  let fetchResult: Response;
+  let fetchResult: Response | NodeFetchResponse;
   if (data) {
     const body = JSON.stringify(data);
     fetchResult = await customFetch(url, {
@@ -144,7 +145,7 @@ async function put<T = unknown, B = unknown>(url: string, options?: { data?: B; 
   return await resolveHelper<T>(fetchResult);
 }
 
-async function resolveHelper<T>(fetchResult: Response) {
+async function resolveHelper<T>(fetchResult: Response | NodeFetchResponse) {
   if (fetchResult.ok) {
     let fetchResolved: Promise<T>;
     if (fetchResult.status === 204) {
@@ -166,7 +167,8 @@ async function resolveHelper<T>(fetchResult: Response) {
 
 async function envCheck() {
   if (typeof window === 'undefined') {
-    const fetch = (await import('node-fetch')) as unknown as Fetch;
+    const fetchModule = await import('node-fetch');
+    const fetch = fetchModule.default;
     return fetch;
   } else {
     return false;

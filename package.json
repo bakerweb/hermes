@@ -4,6 +4,8 @@
   "description": "Lightweight fetch wrapper",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "repository": "github:bakerweb/hermes",
+  "type": "module",
   "scripts": {
     "test": "npx playwright test",
     "build": "tsc",
