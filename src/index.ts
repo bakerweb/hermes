@@ -20,7 +20,7 @@ declare const Fetch: {
   (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
 };
 
-async function post<T>(url: string, options?: { data?: unknown; headers?: Headers; fetch?: Fetch }) {
+async function post<T = unknown, B = unknown>(url: string, options?: { data?: B; headers?: Headers; fetch?: Fetch }) {
   // set headers
   const headers = new Headers({
     'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ async function post<T>(url: string, options?: { data?: unknown; headers?: Header
   return resolveHelper<T>(fetchResult);
 }
 
-async function get<T>(url: string, options?: { data?: unknown; headers?: Headers; fetch?: Fetch }) {
+async function get<T = unknown, B = unknown>(url: string, options?: { data?: B; headers?: Headers; fetch?: Fetch }) {
   // set headers
   const headers = new Headers({ 'Content-Type': 'application/json' });
   // set fetch
@@ -86,39 +86,26 @@ async function get<T>(url: string, options?: { data?: unknown; headers?: Headers
   return resolveHelper<T>(fetchResult);
 }
 
-async function _delete<T>(url: string, options?: { data?: unknown; headers?: Headers; fetch?: Fetch }) {
+async function _delete<T = unknown>(url: string, options?: { headers?: Headers; fetch?: Fetch }) {
   // set headers
   const headers = new Headers({ 'Content-Type': 'application/json' });
   // set fetch
   const customFetch = options?.fetch ? options.fetch : fetch;
-  const { data } = options?.data ? options : { data: false };
   const method = 'DELETE';
   // make request
   let fetchResult: Response;
-  if (data) {
-    const body = JSON.stringify(data);
-    fetchResult = await customFetch(url, {
-      method,
-      headers: {
-        ...options?.headers,
-        ...headers,
-      },
-      body,
-    });
-  } else {
-    fetchResult = await customFetch(url, {
-      method,
-      headers: {
-        ...options?.headers,
-        ...headers,
-      },
-    });
-  }
+  fetchResult = await customFetch(url, {
+    method,
+    headers: {
+      ...options?.headers,
+      ...headers,
+    },
+  });
   // resolve request
   return resolveHelper<T>(fetchResult);
 }
 
-async function put<T>(url: string, options?: { data?: unknown; headers?: Headers; fetch?: Fetch }) {
+async function put<T = unknown, B = unknown>(url: string, options?: { data?: B; headers?: Headers; fetch?: Fetch }) {
   // Set headers
   const headers = new Headers({ 'Content-Type': 'application/json' });
   // set fetch
@@ -147,17 +134,21 @@ async function put<T>(url: string, options?: { data?: unknown; headers?: Headers
     });
   }
   // resolve request
-  return resolveHelper<T>(fetchResult);
+  return await resolveHelper<T>(fetchResult);
 }
 
 async function resolveHelper<T>(fetchResult: Response) {
   if (fetchResult.ok) {
-    let fetchResolved: Promise<T | string>;
-    const contentType = fetchResult.headers.get('content-type');
-    if (contentType && contentType.indexOf('application/json') !== -1) {
-      fetchResolved = fetchResult.json() as Promise<T>;
+    let fetchResolved: Promise<T>;
+    if (fetchResult.status === 204) {
+      fetchResolved = Promise.resolve('No Content') as Promise<T>;
     } else {
-      fetchResolved = fetchResult.text();
+      const contentType = fetchResult.headers.get('content-type');
+      if (contentType && contentType.indexOf('application/json') !== -1) {
+        fetchResolved = fetchResult.json() as Promise<T>;
+      } else {
+        fetchResolved = fetchResult.text() as Promise<T>;
+      }
     }
     return fetchResolved;
   } else {

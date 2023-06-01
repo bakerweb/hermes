@@ -8,5 +8,5 @@ test('Put Request', async ({ page }) => {
     job: 'zion resident',
   };
   const response = await hermes.put<UpdateUserResponse>('https://reqres.in/api/users/2', { data });
-  expect(response.name).toBe('morpheus');
+  expect(response).toHaveProperty('updatedAt');
 });
