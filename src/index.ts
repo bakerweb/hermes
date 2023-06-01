@@ -1,11 +1,3 @@
-// * This is a lightweight implementation that works off browser fetch or any custom fetch you pass in.
-// * Requires node v17.5+ Recommended v18.16.0
-/*
- * use example
- * import {hermes} from '@bakerweb/hermes'
- * hermes.post('http://localhost:3001/api/v1/get-user, {data: {userId: 134}})
- */
-
 export const hermes = {
   post,
   put,
