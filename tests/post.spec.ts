@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { hermes } from '../src/index';
+import hermes from '../src/index';
 import { CreateUserResponse } from './types';
 type Data = {
   name: string;
