@@ -1,4 +1,4 @@
-# Hermes v1.0.3
+# Hermes v1.0.4
 
 [![Node.js CI](https://github.com/bakerweb/hermes/actions/workflows/node.js.yml/badge.svg)](https://github.com/bakerweb/hermes/actions/workflows/node.js.yml)
 
