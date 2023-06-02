@@ -1,4 +1,4 @@
-export const hermes = {
+const hermes = {
   post,
   put,
   delete: _delete,
@@ -147,3 +147,5 @@ async function resolveHelper<T>(fetchResult: Response) {
     return Promise.reject(new Error(errorMessage));
   }
 }
+
+export default hermes;
