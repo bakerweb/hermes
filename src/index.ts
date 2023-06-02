@@ -28,8 +28,8 @@ async function post<T = unknown, B = unknown>(url: string, options?: { data?: B;
     fetchResult = await customFetch(url, {
       method,
       headers: {
-        ...options?.headers,
         ...headers,
+        ...options?.headers,
       },
       body,
     });
@@ -37,8 +37,8 @@ async function post<T = unknown, B = unknown>(url: string, options?: { data?: B;
     fetchResult = await customFetch(url, {
       method,
       headers: {
-        ...options?.headers,
         ...headers,
+        ...options?.headers,
       },
     });
   }
@@ -60,8 +60,8 @@ async function get<T = unknown, B = unknown>(url: string, options?: { data?: B; 
     fetchResult = await customFetch(url, {
       method,
       headers: {
-        ...options?.headers,
         ...headers,
+        ...options?.headers,
       },
       body,
     });
@@ -69,8 +69,8 @@ async function get<T = unknown, B = unknown>(url: string, options?: { data?: B; 
     fetchResult = await customFetch(url, {
       method,
       headers: {
-        ...options?.headers,
         ...headers,
+        ...options?.headers,
       },
     });
   }
@@ -88,8 +88,8 @@ async function _delete<T = unknown>(url: string, options?: { headers?: Headers; 
   const fetchResult = await customFetch(url, {
     method,
     headers: {
-      ...options?.headers,
       ...headers,
+      ...options?.headers,
     },
   });
   // resolve request
@@ -110,8 +110,8 @@ async function put<T = unknown, B = unknown>(url: string, options?: { data?: B; 
     fetchResult = await customFetch(url, {
       method,
       headers: {
-        ...options?.headers,
         ...headers,
+        ...options?.headers,
       },
       body,
     });
@@ -119,8 +119,8 @@ async function put<T = unknown, B = unknown>(url: string, options?: { data?: B; 
     fetchResult = await customFetch(url, {
       method,
       headers: {
-        ...options?.headers,
         ...headers,
+        ...options?.headers,
       },
     });
   }
