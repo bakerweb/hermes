@@ -115,14 +115,19 @@ Post Request
 ```
 import hermes from '@bakerwebsolutions/hermes'
 
-const postRequestResponse = hermes.post('https://reqres.in/api/users', {
-    data: {
-        name: 'John',
-        job: 'driver'
-    }
-})
+type Data = {
+  name: string;
+  job: string;
+};
 
-console.log(postRequestResponse)
+const data = {
+    name: 'mobius',
+    job: 'secret',
+};
+
+const postResponse = await hermes.post<CreateUserResponse, Data>('https://reqres.in/api/users', { data });
+
+console.log(postResponse)
 ```
 
 ## Development

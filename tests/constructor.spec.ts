@@ -14,7 +14,7 @@ type Data = {
 test('Constructor Post Request', async () => {
   const data = {
     name: 'mobius',
-    movies: ['XD'],
+    job: 'secret',
   };
   const response = await hermes.post<CreateUserResponse, Data>('https://reqres.in/api/users', { data });
   expect(response).toHaveProperty('id');

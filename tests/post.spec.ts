@@ -3,7 +3,7 @@ import hermes from '../src/index';
 import { CreateUserResponse } from './types';
 type Data = {
   name: string;
-  job: string;
+  movies: string[];
 };
 test('Post Request', async () => {
   const data = {
