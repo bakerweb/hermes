@@ -33,9 +33,11 @@ export class Hermes {
     this.delete = _delete;
     this.get = get;
     this.globalOptions = globalOptions;
-    options?.headers?.forEach((header) => {
-      this.globalOptions.headers.append(header.name, header.value);
-    });
+    if (options?.headers) {
+      for (let i = 0; i < options.headers.length; i++) {
+        this.globalOptions.headers.append(options.headers[i].name, options.headers[i].value);
+      }
+    }
   }
 }
 
