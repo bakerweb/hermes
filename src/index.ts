@@ -51,7 +51,7 @@ const hermes = {
 
 export default hermes;
 
-async function post<T = unknown, B = unknown>(
+async function post<T = void, B = void>(
   url: string,
   options?: { data?: B; headers?: { name: string; value: string }[]; fetch?: Fetch },
 ) {
@@ -87,7 +87,7 @@ async function post<T = unknown, B = unknown>(
   return resolveHelper<T>(fetchResult);
 }
 
-async function get<T = unknown, B = unknown>(
+async function get<T = void, B = void>(
   url: string,
   options?: { data?: B; headers?: { name: string; value: string }[]; fetch?: Fetch },
 ) {
@@ -123,7 +123,7 @@ async function get<T = unknown, B = unknown>(
   return resolveHelper<T>(fetchResult);
 }
 
-async function _delete<T = unknown>(
+async function _delete<T = void>(
   url: string,
   options?: { headers?: { name: string; value: string }[]; fetch?: Fetch },
 ) {
@@ -148,7 +148,7 @@ async function _delete<T = unknown>(
   return resolveHelper<T>(fetchResult);
 }
 
-async function put<T = unknown, B = unknown>(
+async function put<T = void, B = void>(
   url: string,
   options?: { data?: B; headers?: { name: string; value: string }[]; fetch?: Fetch },
 ) {
