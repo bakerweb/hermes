@@ -10,10 +10,14 @@ declare const Fetch: {
   (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
   (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
 };
+type RawHeaders = {
+  name: string;
+  value: string;
+};
 export type Options<B = void> = {
   data?: B;
   fetch?: Fetch;
-  headers?: { name: string; value: string }[];
+  headers?: RawHeaders[];
 };
 type GlobalOptions<B = void> = {
   data?: B;
@@ -35,7 +39,11 @@ export class Hermes {
     this.globalOptions = globalOptions;
     if (options?.headers) {
       for (let i = 0; i < options.headers.length; i++) {
-        this.globalOptions.headers.append(options.headers[i].name, options.headers[i].value);
+        const key = options.headers[i].name;
+        if (this.globalOptions.headers.get(key)) {
+          this.globalOptions.headers.set(key, options.headers[i].value);
+        }
+        this.globalOptions.headers.append(key, options.headers[i].value);
       }
     }
   }
@@ -51,9 +59,9 @@ const hermes = {
 
 export default hermes;
 
-async function post<T = void, B = void>(
+async function post<T = unknown, B = unknown>(
   url: string,
-  options?: { data?: B; headers?: { name: string; value: string }[]; fetch?: Fetch },
+  options?: { data?: B; headers?: RawHeaders[]; fetch?: Fetch },
 ) {
   // set fetch
   const customFetch = options?.fetch ? options.fetch : fetch;
@@ -63,8 +71,13 @@ async function post<T = void, B = void>(
   const headers = globalOptions.headers;
   if (options?.headers) {
     options.headers.forEach((header) => {
-      if (!headers.get(header.name) && headers.get(header.name) !== header.value) {
-        headers.append(header.name, header.value);
+      const key = header.name;
+      if (!headers.has(key)) {
+        headers.append(key, header.value);
+      } else {
+        if (headers.get(key) !== header.value) {
+          headers.set(key, header.value);
+        }
       }
     });
   }
@@ -87,9 +100,9 @@ async function post<T = void, B = void>(
   return resolveHelper<T>(fetchResult);
 }
 
-async function get<T = void, B = void>(
+async function get<T = unknown, B = unknown>(
   url: string,
-  options?: { data?: B; headers?: { name: string; value: string }[]; fetch?: Fetch },
+  options?: { data?: B; headers?: RawHeaders[]; fetch?: Fetch },
 ) {
   // set fetch
   const customFetch = options?.fetch ? options.fetch : fetch;
@@ -99,8 +112,13 @@ async function get<T = void, B = void>(
   const headers = globalOptions.headers;
   if (options?.headers) {
     options.headers.forEach((header) => {
-      if (!headers.get(header.name) && headers.get(header.name) !== header.value) {
-        headers.append(header.name, header.value);
+      const key = header.name;
+      if (!headers.has(key)) {
+        headers.append(key, header.value);
+      } else {
+        if (headers.get(key) !== header.value) {
+          headers.set(key, header.value);
+        }
       }
     });
   }
@@ -123,10 +141,7 @@ async function get<T = void, B = void>(
   return resolveHelper<T>(fetchResult);
 }
 
-async function _delete<T = void>(
-  url: string,
-  options?: { headers?: { name: string; value: string }[]; fetch?: Fetch },
-) {
+async function _delete<T = unknown>(url: string, options?: { headers?: RawHeaders[]; fetch?: Fetch }) {
   // set fetch
   const customFetch = options?.fetch ? options.fetch : fetch;
   const method = 'DELETE';
@@ -134,8 +149,13 @@ async function _delete<T = void>(
   const headers = globalOptions.headers;
   if (options?.headers) {
     options.headers.forEach((header) => {
-      if (!headers.get(header.name) && headers.get(header.name) !== header.value) {
-        headers.append(header.name, header.value);
+      const key = header.name;
+      if (!headers.has(key)) {
+        headers.append(key, header.value);
+      } else {
+        if (headers.get(key) !== header.value) {
+          headers.set(key, header.value);
+        }
       }
     });
   }
@@ -148,9 +168,9 @@ async function _delete<T = void>(
   return resolveHelper<T>(fetchResult);
 }
 
-async function put<T = void, B = void>(
+async function put<T = unknown, B = unknown>(
   url: string,
-  options?: { data?: B; headers?: { name: string; value: string }[]; fetch?: Fetch },
+  options?: { data?: B; headers?: RawHeaders[]; fetch?: Fetch },
 ) {
   // set fetch
   const customFetch = options?.fetch ? options.fetch : fetch;
@@ -160,8 +180,13 @@ async function put<T = void, B = void>(
   const headers = globalOptions.headers;
   if (options?.headers) {
     options.headers.forEach((header) => {
-      if (!headers.get(header.name) && headers.get(header.name) !== header.value) {
-        headers.append(header.name, header.value);
+      const key = header.name;
+      if (!headers.has(key)) {
+        headers.append(key, header.value);
+      } else {
+        if (headers.get(key) !== header.value) {
+          headers.set(key, header.value);
+        }
       }
     });
   }
@@ -184,7 +209,7 @@ async function put<T = void, B = void>(
   return await resolveHelper<T>(fetchResult);
 }
 
-async function resolveHelper<T>(fetchResult: Response) {
+async function resolveHelper<T = unknown>(fetchResult: Response) {
   if (fetchResult.ok) {
     let fetchResolved: Promise<T>;
     if (fetchResult.status === 204) {
