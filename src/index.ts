@@ -40,10 +40,11 @@ export class Hermes {
     if (options?.headers) {
       for (let i = 0; i < options.headers.length; i++) {
         const key = options.headers[i].name;
-        if (this.globalOptions.headers.get(key)) {
+        if (this.globalOptions.headers.has(key)) {
           this.globalOptions.headers.set(key, options.headers[i].value);
+        } else {
+          this.globalOptions.headers.append(key, options.headers[i].value);
         }
-        this.globalOptions.headers.append(key, options.headers[i].value);
       }
     }
   }
@@ -75,9 +76,7 @@ async function post<T = unknown, B = unknown>(
       if (!headers.has(key)) {
         headers.append(key, header.value);
       } else {
-        if (headers.get(key) !== header.value) {
-          headers.set(key, header.value);
-        }
+        headers.set(key, header.value);
       }
     });
   }
@@ -116,9 +115,7 @@ async function get<T = unknown, B = unknown>(
       if (!headers.has(key)) {
         headers.append(key, header.value);
       } else {
-        if (headers.get(key) !== header.value) {
-          headers.set(key, header.value);
-        }
+        headers.set(key, header.value);
       }
     });
   }
@@ -153,9 +150,7 @@ async function _delete<T = unknown>(url: string, options?: { headers?: RawHeader
       if (!headers.has(key)) {
         headers.append(key, header.value);
       } else {
-        if (headers.get(key) !== header.value) {
-          headers.set(key, header.value);
-        }
+        headers.set(key, header.value);
       }
     });
   }
@@ -184,9 +179,7 @@ async function put<T = unknown, B = unknown>(
       if (!headers.has(key)) {
         headers.append(key, header.value);
       } else {
-        if (headers.get(key) !== header.value) {
-          headers.set(key, header.value);
-        }
+        headers.set(key, header.value);
       }
     });
   }
