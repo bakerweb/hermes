@@ -1,4 +1,4 @@
-# Hermes v1.0.5
+# Hermes v1.0.7
 
 [![Node.js CI](https://github.com/bakerweb/hermes/actions/workflows/node.js.yml/badge.svg)](https://github.com/bakerweb/hermes/actions/workflows/node.js.yml)
 
@@ -51,9 +51,10 @@ const data = {
 }
 const options = {
     headers: 'Content-Type': 'application/json', // Default Content-Type header is application/json
+    data,
     fetch
 }
-const postRequestResponse = hermes.post('https://reqres.in/api/users', options, {data})
+const postRequestResponse = hermes.post('https://reqres.in/api/users', options)
 ```
 
 ### Global Configuration
